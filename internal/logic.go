@@ -22,11 +22,18 @@ func (g *Game) Update() {
 		}
 	}
 
-	if g.Ball.Vector2.X >= (float32(rl.GetScreenWidth())-c.BallRadius) || g.Ball.Vector2.X <= c.BallRadius {
+	if g.Ball.Vector2.X >= (float32(rl.GetScreenWidth()) - c.BallRadius) {
+		g.Ball.Vector2.X = float32(rl.GetScreenWidth() - c.BallRadius)
+		g.Ball.velocity.X *= -1
+	}
+
+	if g.Ball.Vector2.X <= c.BallRadius {
+		g.Ball.Vector2.X = float32(c.BallRadius)
 		g.Ball.velocity.X *= -1
 	}
 
 	if g.Ball.Vector2.Y <= c.BallRadius {
+		g.Ball.Vector2.Y = float32(c.BallRadius)
 		g.Ball.velocity.Y *= -1
 	}
 
@@ -47,10 +54,10 @@ func (g *Game) Update() {
 		}
 	}
 
-	// there's a bug where ball hit the side of the paddle, the ball will stick inside the paddle
 	paddleTopEdgeStart := rl.Vector2{X: g.Paddle.Rectangle.X, Y: g.Paddle.Rectangle.Y}
 	paddleTopEdgeEnd := rl.Vector2{X: g.Paddle.Rectangle.X + g.Paddle.Rectangle.Width, Y: g.Paddle.Rectangle.Y}
 	if rl.CheckCollisionCircleLine(g.Ball.Vector2, c.BallRadius, paddleTopEdgeStart, paddleTopEdgeEnd) && g.State == c.Playing {
+		g.Ball.Vector2.Y = g.Paddle.Rectangle.Y - c.BallRadius
 		g.Ball.velocity.Y *= -1
 	}
 
