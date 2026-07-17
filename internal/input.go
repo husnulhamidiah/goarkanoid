@@ -22,6 +22,11 @@ func (g *Game) Input() {
 	}
 
 	if rl.IsKeyDown(rl.KeyRight) && g.State != c.GameOver {
+		if g.Paddle.X+g.Paddle.Width >= float32(rl.GetScreenWidth()) {
+			g.Paddle.X = float32(rl.GetScreenWidth()) - g.Paddle.Width
+			return
+		}
+
 		g.Paddle.X += c.BarVelocity * dt
 		if g.State == c.Initial {
 			g.Ball.X += c.BarVelocity * dt
@@ -29,6 +34,11 @@ func (g *Game) Input() {
 	}
 
 	if rl.IsKeyDown(rl.KeyLeft) && g.State != c.GameOver {
+		if g.Paddle.X <= 0 {
+			g.Paddle.X = 0
+			return
+		}
+
 		g.Paddle.X -= c.BarVelocity * dt
 		if g.State == c.Initial {
 			g.Ball.X -= c.BarVelocity * dt
