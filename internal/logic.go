@@ -13,7 +13,7 @@ func (g *Game) Update() {
 		g.Ball.Vector2 = rl.Vector2Add(g.Ball.Vector2, rl.Vector2Scale(g.Ball.velocity, dt))
 	}
 
-	if g.brickCounter < c.BrickCount && g.State == c.Initial {
+	if g.brickCounter < c.BrickCount && g.State == c.Initial && g.Score == 0 {
 		g.revealTimer += dt
 		if g.revealTimer >= 0.1 && !g.Bricks[g.brickCounter].active {
 			g.Bricks[g.brickCounter].active = true
