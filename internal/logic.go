@@ -33,7 +33,7 @@ func (g *Game) Update() {
 		}
 
 		threshold := int(g.Bricks[c.BrickCount-1].Y) + int(g.Bricks[c.BrickCount-1].Height) + (c.BallRadius * 2)
-		if g.spawning && g.State == c.Playing && g.Score != 0 && int(g.Ball.Vector2.Y) >= threshold {
+		if g.spawning && g.State == c.Playing && g.Score != 0 && int(g.Ball.Y) >= threshold {
 			g.revealTimer += dt
 			if g.revealTimer >= 0.1 && !g.Bricks[g.brickCounter].active {
 				g.Bricks[g.brickCounter].active = true
@@ -43,26 +43,26 @@ func (g *Game) Update() {
 		}
 	}
 
-	if g.Ball.Vector2.X >= (float32(rl.GetScreenWidth()) - c.BallRadius) {
-		g.Ball.Vector2.X = float32(rl.GetScreenWidth() - c.BallRadius)
+	if g.Ball.X >= (float32(rl.GetScreenWidth()) - c.BallRadius) {
+		g.Ball.X = float32(rl.GetScreenWidth() - c.BallRadius)
 		g.Ball.velocity.X *= -1
 	}
 
-	if g.Ball.Vector2.X <= c.BallRadius {
-		g.Ball.Vector2.X = float32(c.BallRadius)
+	if g.Ball.X <= c.BallRadius {
+		g.Ball.X = float32(c.BallRadius)
 		g.Ball.velocity.X *= -1
 	}
 
-	if g.Ball.Vector2.Y <= c.BallRadius {
-		g.Ball.Vector2.Y = float32(c.BallRadius)
+	if g.Ball.Y <= c.BallRadius {
+		g.Ball.Y = float32(c.BallRadius)
 		g.Ball.velocity.Y *= -1
 	}
 
-	if g.Ball.Vector2.Y >= (float32(rl.GetScreenHeight())-c.BallRadius) && g.State == c.Playing {
+	if g.Ball.Y >= (float32(rl.GetScreenHeight())-c.BallRadius) && g.State == c.Playing {
 		g.Ball.Vector2 = g.ballOrigPos
 
-		g.Paddle.Rectangle.X = g.paddleOrigPos.X
-		g.Paddle.Rectangle.Y = g.paddleOrigPos.Y
+		g.Paddle.X = g.paddleOrigPos.X
+		g.Paddle.Y = g.paddleOrigPos.Y
 
 		g.Ball.velocity = rl.Vector2{X: float32(c.BallXVelocity), Y: float32(c.BallYVelocity)}
 
@@ -75,10 +75,10 @@ func (g *Game) Update() {
 		}
 	}
 
-	paddleTopEdgeStart := rl.Vector2{X: g.Paddle.Rectangle.X, Y: g.Paddle.Rectangle.Y}
-	paddleTopEdgeEnd := rl.Vector2{X: g.Paddle.Rectangle.X + g.Paddle.Rectangle.Width, Y: g.Paddle.Rectangle.Y}
+	paddleTopEdgeStart := rl.Vector2{X: g.Paddle.X, Y: g.Paddle.Y}
+	paddleTopEdgeEnd := rl.Vector2{X: g.Paddle.X + g.Paddle.Width, Y: g.Paddle.Y}
 	if rl.CheckCollisionCircleLine(g.Ball.Vector2, c.BallRadius, paddleTopEdgeStart, paddleTopEdgeEnd) && g.State == c.Playing {
-		g.Ball.Vector2.Y = g.Paddle.Rectangle.Y - c.BallRadius
+		g.Ball.Y = g.Paddle.Y - c.BallRadius
 		g.Ball.velocity.Y *= -1
 
 		speed := rl.Vector2Length(g.Ball.velocity)
