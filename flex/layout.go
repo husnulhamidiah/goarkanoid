@@ -3,6 +3,7 @@ package flex
 import (
 	"fmt"
 
+	c "github.com/husnulhamidiah/goarkanoid/constant"
 	goyoga "github.com/husnulhamidiah/goyoga/std"
 )
 
@@ -25,8 +26,8 @@ func ComputeFlexLayout() {
 
 	Root = newBox(config, "root")
 	Root.Node.SetFlexDirection(goyoga.FlexDirectionColumn)
-	Root.Node.SetWidth(300)
-	Root.Node.SetHeight(600)
+	Root.Node.SetWidth(c.WindowWidth)
+	Root.Node.SetHeight(c.WindowHeight)
 
 	Header = newBox(config, "header")
 	Header.Node.SetPadding(goyoga.EdgeAll, 15)
@@ -42,7 +43,7 @@ func ComputeFlexLayout() {
 	Header.addChild(newFixedBox(config, fmt.Sprintf("top-%d", 3), 50, 25))
 
 	for i := 1; i <= 3; i++ {
-		Header.Children[0].addChild(newFixedBox(config, fmt.Sprintf("it-%d", i), 25, 25))
+		Header.Children[0].addChild(newFixedBox(config, fmt.Sprintf("it-%d", i), c.LiveCircleRadius*2, c.LiveCircleRadius*2))
 	}
 
 	Content = newBox(config, "content")
@@ -52,8 +53,8 @@ func ComputeFlexLayout() {
 	Content.Node.SetJustifyContent(goyoga.JustifyCenter)
 	Content.Node.SetFlexWrap(goyoga.WrapWrap)
 	Content.Node.SetAlignContent(goyoga.AlignFlexStart)
-	for i := 1; i <= 16; i++ {
-		Content.addChild(newFixedBox(config, fmt.Sprintf("item-%02d", i), 50, 25))
+	for i := 1; i <= c.BrickCount; i++ {
+		Content.addChild(newFixedBox(config, fmt.Sprintf("item-%02d", i), c.BrickWidth, c.BrickHeight))
 	}
 
 	Footer = newBox(config, "footer")
@@ -61,11 +62,11 @@ func ComputeFlexLayout() {
 	Footer.Node.SetJustifyContent(goyoga.JustifyCenter)
 	Footer.Node.SetAlignItems(goyoga.AlignCenter)
 	Footer.Node.SetFlexDirection(goyoga.FlexDirectionColumn)
-	Footer.addChild(newFixedBox(config, "dot", 20, 20))
-	Footer.addChild(newFixedBox(config, "bar", 100, 10))
+	Footer.addChild(newFixedBox(config, "dot", c.BallRadius*2, c.BallRadius*2))
+	Footer.addChild(newFixedBox(config, "bar", c.BarWidth, c.BarHeight))
 
 	Root.addChild(Header)
 	Root.addChild(Content)
 	Root.addChild(Footer)
-	Root.Node.CalculateLayout(300, 600, goyoga.DirectionLTR)
+	Root.Node.CalculateLayout(c.WindowWidth, c.WindowHeight, goyoga.DirectionLTR)
 }

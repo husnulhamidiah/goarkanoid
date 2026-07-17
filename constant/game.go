@@ -1,6 +1,8 @@
 package constant
 
 const (
+	WindowWidth      = 300
+	WindowHeight     = 600
 	LiveCircleRadius = 12.5
 	HeaderFontSize   = 25
 	GameOverText     = "Game Over"

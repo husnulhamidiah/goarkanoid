@@ -12,9 +12,9 @@ func (g *Game) Draw() {
 	rl.BeginDrawing()
 
 	rl.ClearBackground(rl.RayWhite)
-	rl.DrawRectangle(0, 0, 300, 350, c.MiffyBlue)
-	rl.DrawRectangle(0, 350, 300, 5, c.MiffyBlack)
-	rl.DrawRectangle(0, 355, 300, 800-350-5, c.MiffyGreen)
+	rl.DrawRectangle(0, 0, c.WindowWidth, 6*c.WindowHeight/10, c.MiffyBlue)
+	rl.DrawRectangle(0, 6*c.WindowHeight/10, c.WindowWidth, 5, c.MiffyBlack)
+	rl.DrawRectangle(0, (6*c.WindowHeight/10)+5, c.WindowWidth, c.WindowHeight-(6*c.WindowHeight/10)-5, c.MiffyGreen)
 
 	for i := 0; i < g.Lives; i++ {
 		rl.DrawCircle(int32(g.Hearts[i].X), int32(g.Hearts[i].Y), float32(c.LiveCircleRadius), g.Hearts[i].color)
