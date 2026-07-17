@@ -9,16 +9,37 @@ func (g *Game) Update() {
 
 	dt := rl.GetFrameTime()
 
-	if g.State == c.Playing || g.State == c.Spawning {
+	if g.State == c.Playing {
 		g.Ball.Vector2 = rl.Vector2Add(g.Ball.Vector2, rl.Vector2Scale(g.Ball.velocity, dt))
 	}
 
-	if g.brickCounter < c.BrickCount && g.State == c.Initial && g.Score == 0 {
-		g.revealTimer += dt
-		if g.revealTimer >= 0.1 && !g.Bricks[g.brickCounter].active {
-			g.Bricks[g.brickCounter].active = true
-			g.brickCounter += 1
-			g.revealTimer = 0.0
+	if g.brickCounter == c.BrickCount {
+		g.spawning = false
+	}
+
+	if g.brickCounter == 0 && g.State == c.Playing {
+		g.spawning = true
+	}
+
+	if g.brickCounter < c.BrickCount {
+		if g.State == c.Initial && g.Score == 0 {
+			g.revealTimer += dt
+			if g.revealTimer >= 0.1 && !g.Bricks[g.brickCounter].active {
+				g.Bricks[g.brickCounter].active = true
+				g.brickCounter += 1
+				g.revealTimer = 0.0
+			}
+			return
+		}
+
+		threshold := int(g.Bricks[c.BrickCount-1].Y) + int(g.Bricks[c.BrickCount-1].Height) + (c.BallRadius * 2)
+		if g.spawning && g.State == c.Playing && g.Score != 0 && int(g.Ball.Vector2.Y) >= threshold {
+			g.revealTimer += dt
+			if g.revealTimer >= 0.1 && !g.Bricks[g.brickCounter].active {
+				g.Bricks[g.brickCounter].active = true
+				g.brickCounter += 1
+				g.revealTimer = 0.0
+			}
 		}
 	}
 
@@ -75,23 +96,6 @@ func (g *Game) Update() {
 				g.brickCounter -= 1
 				break
 			}
-		}
-	}
-
-	if g.brickCounter == 0 && g.State == c.Playing {
-		g.State = c.Spawning
-	}
-
-	threshold := int(g.Bricks[c.BrickCount-1].Y) + int(g.Bricks[c.BrickCount-1].Height) + (c.BallRadius * 2)
-	if g.brickCounter < c.BrickCount && g.State == c.Spawning && int(g.Ball.Vector2.Y) >= threshold {
-		g.revealTimer += dt
-		if g.revealTimer >= 0.1 && !g.Bricks[g.brickCounter].active {
-			g.Bricks[g.brickCounter].active = true
-			g.brickCounter += 1
-			g.revealTimer = 0.0
-		}
-		if g.brickCounter >= c.BrickCount {
-			g.State = c.Playing
 		}
 	}
 }

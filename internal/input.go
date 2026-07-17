@@ -9,7 +9,7 @@ func (g *Game) Input() {
 	dt := rl.GetFrameTime()
 
 	if rl.IsKeyPressed(rl.KeySpace) {
-		if g.State == c.Initial {
+		if g.State == c.Initial && !g.spawning {
 			g.State = c.Playing
 		}
 

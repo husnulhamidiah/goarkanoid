@@ -26,6 +26,7 @@ type Game struct {
 	ballOrigPos   rl.Vector2
 	paddleOrigPos rl.Vector2
 	gameOverPos   rl.Vector2
+	spawning      bool
 }
 
 func NewGame() *Game {
@@ -113,6 +114,8 @@ func (g *Game) Init() {
 		X: flex.Header.Children[0].Node.GetComputedLeft(),
 		Y: flex.Header.Children[0].Node.GetComputedTop(),
 	}
+
+	g.spawning = true
 }
 
 func (g *Game) Run() {
