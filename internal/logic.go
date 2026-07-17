@@ -59,6 +59,11 @@ func (g *Game) Update() {
 	if rl.CheckCollisionCircleLine(g.Ball.Vector2, c.BallRadius, paddleTopEdgeStart, paddleTopEdgeEnd) && g.State == c.Playing {
 		g.Ball.Vector2.Y = g.Paddle.Rectangle.Y - c.BallRadius
 		g.Ball.velocity.Y *= -1
+
+		speed := rl.Vector2Length(g.Ball.velocity)
+		g.Ball.velocity.X += g.Paddle.velocity.X * 0.3
+		dir := rl.Vector2Normalize(g.Ball.velocity)
+		g.Ball.velocity = rl.Vector2Scale(dir, speed)
 	}
 
 	for i := 0; i < c.BrickCount; i++ {
