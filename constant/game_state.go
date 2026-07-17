@@ -1,4 +1,4 @@
-package main
+package constant
 
 type GameState int
 
