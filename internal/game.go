@@ -19,6 +19,8 @@ type Game struct {
 
 	State c.GameState
 
+	Sound Sound
+
 	brickCounter int
 	revealTimer  float32
 
@@ -27,6 +29,7 @@ type Game struct {
 	paddleOrigPos rl.Vector2
 	gameOverPos   rl.Vector2
 	spawning      bool
+	muted         bool
 }
 
 func NewGame() *Game {
@@ -102,6 +105,13 @@ func (g *Game) Init() {
 	}
 	g.State = c.Initial
 
+	g.Sound = Sound{
+		Pop:      rl.LoadSound("resources/pop.wav"),
+		Bounce:   rl.LoadSound("resources/bounce.wav"),
+		Lose:     rl.LoadSound("resources/lose.wav"),
+		GameOver: rl.LoadSound("resources/gameover.wav"),
+	}
+
 	g.brickCounter = 0
 	g.revealTimer = 0.0
 
@@ -116,6 +126,7 @@ func (g *Game) Init() {
 	}
 
 	g.spawning = true
+	g.muted = false
 }
 
 func (g *Game) Run() {

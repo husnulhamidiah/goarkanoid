@@ -44,4 +44,8 @@ func (g *Game) Input() {
 			g.Ball.X -= c.BarVelocity * dt
 		}
 	}
+
+	if rl.IsKeyPressed(rl.KeyM) {
+		g.muted = !g.muted
+	}
 }

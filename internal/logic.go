@@ -70,8 +70,10 @@ func (g *Game) Update() {
 
 		if g.Lives <= 0 {
 			g.State = c.GameOver
+			g.PlaySound(g.Sound.GameOver)
 		} else {
 			g.State = c.Initial
+			g.PlaySound(g.Sound.Lose)
 		}
 	}
 
@@ -85,6 +87,7 @@ func (g *Game) Update() {
 		g.Ball.velocity.X += g.Paddle.velocity.X * 0.3
 		dir := rl.Vector2Normalize(g.Ball.velocity)
 		g.Ball.velocity = rl.Vector2Scale(dir, speed)
+		g.PlaySound(g.Sound.Bounce)
 	}
 
 	for i := 0; i < c.BrickCount; i++ {
@@ -94,6 +97,8 @@ func (g *Game) Update() {
 				g.Bricks[i].active = false
 				g.Score += 10
 				g.brickCounter -= 1
+
+				g.PlaySound(g.Sound.Pop)
 				break
 			}
 		}

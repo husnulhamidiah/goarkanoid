@@ -11,6 +11,9 @@ func main() {
 	rl.InitWindow(c.WindowWidth, c.WindowHeight, "Brick Breaker")
 	defer rl.CloseWindow()
 
+	rl.InitAudioDevice()
+	defer rl.CloseAudioDevice()
+
 	rl.SetTargetFPS(60)
 
 	game := internal.NewGame()
